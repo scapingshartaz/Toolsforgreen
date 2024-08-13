@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Formatter</title>
+    <title>টেক্সট ফরম্যাটার</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f4f4f9;
             color: #333;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Noto Serif Bengali', serif;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
         .dark-mode {
@@ -76,16 +76,16 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="text-center w-100">Text Formatter</h1>
-            <button class="btn btn-secondary btn-toggle" id="toggleModeBtn">Toggle Dark Mode</button>
+            <button class="btn btn-secondary btn-toggle" id="toggleModeBtn">Dark Mode On/Off</button>
         </div>
         <div class="mb-3">
-            <label for="inputText" class="form-label">Enter Your Text:</label>
-            <textarea class="form-control" id="inputText" rows="5" placeholder="Enter your text here..."></textarea>
+            <label for="inputText" class="form-label">Write your text:</label>
+            <textarea class="form-control" id="inputText" rows="5" placeholder="Write your text here..."></textarea>
         </div>
         <button class="btn btn-primary w-100 mb-3" id="generateBtn">Generate</button>
         <div class="output-actions mb-2">
             <h4 class="output-title">Output:</h4>
-            <button class="btn btn-success" id="copyBtn">Copy to Clipboard</button>
+            <button class="btn btn-success" id="copyBtn">Copty to Clipboard</button>
         </div>
         <p id="outputText" class="border"></p>
     </div>
@@ -106,4 +106,25 @@
 
         document.getElementById('copyBtn').addEventListener('click', function() {
             let outputText = document.getElementById('outputText').textContent;
-         
+            navigator.clipboard.writeText(outputText).then(() => {
+                alert('Output has been copied to clipboard!');
+            }).catch(err => {
+                alert('Faild to copy: ', err);
+            });
+        });
+
+        document.getElementById('inputText').addEventListener('input', function() {
+            spellCheck(this.value);
+        });
+
+        function spellCheck(text) {
+            // Dummy spell check implementation for demonstration
+            let misspelledWords = ["Wrong", "Word"]; // Example misspelled words
+            let outputText = text.split(' ').map(word => {
+                return misspelledWords.includes(word) ? `<span style="color: red;">${word}</span>` : word;
+            }).join(' ');
+            document.getElementById('outputText').innerHTML = outputText;
+        }
+    </script>
+</body>
+</html>
